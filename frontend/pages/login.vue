@@ -39,7 +39,7 @@ const userInfo = ref<UserLogin>({
 });
 
 const submit = async () => {
-    const response = await authS.login(userInfo.value);
+    await authS.login(userInfo.value);
     
     if (isLoggedIn) {
         router.push('/user/job');

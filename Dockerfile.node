@@ -1,0 +1,17 @@
+FROM node:18 AS node
+
+WORKDIR /app/frontend
+
+# Copy package.json and package-lock.json
+COPY frontend/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy source code
+COPY frontend/node .
+
+EXPOSE 4000
+
+# Run the node server
+CMD ["node", "server.js"]

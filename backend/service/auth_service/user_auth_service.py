@@ -1,4 +1,4 @@
-from db.config import db, settings
+from config.db import db, settings
 from db.models.user_models import *
 from config.logger import logger
 import bcrypt

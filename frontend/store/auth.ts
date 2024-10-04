@@ -49,8 +49,7 @@ export const authStore = defineStore('auth', {
     async logout() {
       try {
         const response = await userService.logout();
-        console.log(JSON.stringify(response));
-        if (response.success) {
+        if (response == 1) {
           Cookies.remove('token');
           this.isLoggedIn = false;
           console.log('logged out');

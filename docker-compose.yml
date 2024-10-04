@@ -1,0 +1,43 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    ports:
+      - "4000:4000"
+    depends_on:
+      - redis
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - mongodb
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017/devJobsDB
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: devJobsDB
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

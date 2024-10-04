@@ -12,11 +12,11 @@
                     v-model="userInfo.email"/>
                 </label>
                 <label class="input input-bordered rounded-lg flex items-center mt-2 w-[30vw]">
-                    <input type="text" placeholder="Password" class="w-full"
+                    <input type="password" placeholder="Password" class="w-full"
                     v-model="userInfo.password"/>
                 </label>
                 <label class="input input-bordered rounded-lg flex items-center mt-2">
-                    <input type="text" placeholder="Confirm Password" class="w-full"
+                    <input type="password" placeholder="Confirm Password" class="w-full"
                     v-model="confirmPw"
                     @keyup.enter="signup()"/>
                 </label>
@@ -44,12 +44,15 @@ const userInfo = ref<CreateUser>({
 });
 
 const confirmPw = ref('');
-const user = useLocalStorage('token', null);
+
+const { 
+    isLoggedIn: isLoggedIn,
+  } = storeToRefs(authS);
 
 const signup = async () => {
     if (userInfo.value.password === confirmPw.value) {
-        const response = await authS.signup(userInfo.value);
-        if (response) {
+        await authS.signup(userInfo.value);
+        if (isLoggedIn) {
             router.push('/user/job');
         }
     }

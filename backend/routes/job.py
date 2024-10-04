@@ -1,6 +1,6 @@
 from db.models.job_models import *
 from fastapi import APIRouter, Query
-from db.config import db, settings
+from config.db import db, settings
 from datetime import datetime
 from uuid import uuid4, UUID
 from bson.binary import Binary

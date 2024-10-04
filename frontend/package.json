@@ -7,14 +7,17 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "start": "HOST=0.0.0.0 PORT=3000 nuxt start"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.5",
+    "axios": "1.7.7",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "express": "^4.21.0",
     "js-cookie": "^3.0.5",
-    "nuxt": "^3.13.0",
+    "nuxt": "^3.13.2",
     "pinia": "^2.2.4",
     "redis": "^4.7.0",
     "vue": "^3.5.10",

@@ -2,7 +2,7 @@ import express from 'express';
 import axios from 'axios';
 const app = express();
 
-const API = 'http://localhost:8000/job';
+const API = 'http://backend:8000/job';
 
 // Create Job
 app.post('/', async (req, res) => {
@@ -21,6 +21,6 @@ app.get('/', async (req, res) => {
     } catch (error) {
         res.status(500).json({error: error});
     }
-})
+});
 
 export default app;

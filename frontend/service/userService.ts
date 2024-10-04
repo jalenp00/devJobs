@@ -46,11 +46,7 @@ const logout = async () => {
         const response = await axios.post(API + '/logout',{},{
             withCredentials: true,
         });
-        if (response.data.success) {
-            return { success: response.data };
-        } else {
-            return { error: response.data };
-        }
+        return response.data;
     } catch (error) {
         return { error: error };
     }

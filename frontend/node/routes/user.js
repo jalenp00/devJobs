@@ -5,14 +5,12 @@ import redis from 'redis';
 const router = express.Router();
 
 const client = redis.createClient({
-  host: 'localhost',
-  port: 6379,
-  decode_responses: true
+  url: 'redis://redis:6379'
 });
 
-const API = 'http://localhost:8000/user';
+const API = 'http://backend:8000/user';
 
-client.on('error', (err) => res.status(500).json({ error: 'Redis Client Error', err }));
+client.on('error', (err) => console.error('Redis client error:', err));
 client.connect().then(() => console.log('Redis client connected'));
 
 const authenticate = async (req, res, next) => {

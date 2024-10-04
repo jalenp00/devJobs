@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from db.config import db, settings
+from config.db import db, settings
 from db.models.user_models import *
 from util.password_converter import *
 from db.models.error_models import ErrorModel

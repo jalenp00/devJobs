@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings
 import logging
 
 class Settings(BaseSettings):
-    mongodb_url: str = 'mongodb://localhost:27017'
+    mongodb_url: str = 'mongodb://root_user:root_pw@mongodb:27017/devJobsDB?authSource=admin'
     database_name: str = 'devJobsDB'
     job_collection: str = 'jobs'
     user_collection: str = 'users'

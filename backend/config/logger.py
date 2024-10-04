@@ -1,11 +1,13 @@
 import logging
+import os
 
 # Create a custom logger
 logger = logging.getLogger('fastAPI')
 logger.setLevel(logging.INFO)
 
 # Create handlers
-file_handler = logging.FileHandler('../logs/fastAPI.log')
+os.makedirs('/app/logs', exist_ok=True)
+file_handler = logging.FileHandler('/app/logs/fastAPI.log')
 stream_handler = logging.StreamHandler()  
 
 # Create a formatter and set it for the handlers
