@@ -1,2 +1,2 @@
 # devJobs
-This a personal project for expand my skillset and knowledge base. 
+This a personal project to expand my skillset and knowledge base. 
