@@ -50,11 +50,29 @@ const logout = async () => {
     } catch (error) {
         return { error: error };
     }
-}
+};
+
+const apply = async (jobId: string,) => {
+    try {
+        const token = Cookies.get('token');
+        if (!token) {
+            return { error: 'No token' };
+        }
+        const response = await axios.post(API + '/apply', { jobId }, {
+            withCredentials: true,
+        });
+        if (response.data.success) {
+            return { success: true };
+        }
+    } catch (error) {
+        return { error: error };
+    }
+};
 
 export default {
     createUser,
     getUser,
     login,
     logout,
+    apply
 }

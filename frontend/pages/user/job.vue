@@ -61,7 +61,9 @@
       <h4 class="flex justify-center align-middle text-md font-semibold">Full Description:</h4>
       <p class="text-sm pt-5 xl:h-[60%]">{{ selectedJob.description }}</p>
       <div class="flex justify-center w-full pt-5">
-        <button class="btn btn-primary mx-auto w-[60%] rounded-md">Apply</button>
+        <button 
+        class="btn btn-primary mx-auto w-[60%] rounded-md"
+        @click="apply()">Apply</button>
       </div>
     </div>
   </div>
@@ -90,22 +92,33 @@
     </div>
     <div class="absolute bottom-5 flex justify-between w-full bg-transparent pl-5">
       <button class="btn-ghost" @click="goBack()">←</button>
-      <button class="btn btn-primary mx-auto w-[60%]">Apply</button>
+      <button 
+      class="btn btn-primary mx-auto w-[60%]"
+      @click="apply()">Apply</button>
     </div>
+  </div>
+
+  <!-- Alert component at the bottom middle -->
+  <div v-if="triggerAlert" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-5">
+    <SuccessAlert/>
   </div>
 </template>
 
 <script setup lang="ts">
 import FilterBar from '@components/user/FilterBar.vue';
 import jobService from '~/service/jobService';
+import userService from '~/service/userService';
+import { authStore } from '~/store/auth';
+import SuccessAlert from '~/components/global/SuccessAlert.vue';
+import Cookies from 'js-cookie';
 
 interface Filter {
   location: string | null,
   type: string[] | null,
   contract: boolean,
   yearsNeeded: number | null,
-  minSalary: number | null,
-  maxSalary: number | null,
+  minSalary: Number | null,
+  maxSalary: Number | null,
   techStack: string | null
 }
 const filter = ref<Filter>({
@@ -123,7 +136,12 @@ const isLoading = ref<boolean>(true);
 const errorMessage = ref<string | null>(null);
 const selectedJob = ref<Job | null>();
 const scrollPosition = ref<number>(0);
+const triggerAlert = ref<boolean>(false);
+const authS = authStore();
 const isMobile = ref<boolean>(false);
+  const { 
+    isLoggedIn: isLoggedIn,
+  } = storeToRefs(authS);
 
 const props = defineProps<{
   searchTerm: string;
@@ -194,7 +212,7 @@ const handleFilter = (newFilter : Filter) => {
   }
 };
 
-const selectJob = (job : Job) => {
+const selectJob = (job: Job) => {
   selectedJob.value = job;
   scrollPosition.value = window.scrollY;
 
@@ -210,6 +228,20 @@ const goBack = () => {
   nextTick(() => {
     window.scrollTo(0, scrollPosition.value);
   });
+};
+
+const apply = async () => {
+
+  if (isLoggedIn.value && selectedJob.value.id) {
+    console.log('hit apply in job.vue');
+    const response = await userService.apply(selectedJob.value.id);
+    if (response?.success) {
+      triggerAlert.value = true;
+      setTimeout(() => {
+        triggerAlert.value = false;
+      }, 3000);
+    }
+  }
 };
 </script>
 

@@ -3,7 +3,7 @@
     <div class="navbar fixed top-0 z-50 bg-base-100 h-[8vh] lg:h-[15vh] xl:h-[8vh] flex align-top justify-center items-center w-full">
         <!-- Left section for branding or logo -->
         <div class="flex justify-start">
-        <NuxtLink :to="'/user/job'" class="btn btn-primary btn-ghost sm:text-lg md:text-xl lg:text-xl">devJobs</NuxtLink>
+          <NuxtLink :to="'/user/job'" class="btn btn-primary btn-ghost sm:text-lg md:text-xl lg:text-xl">devJobs</NuxtLink>
         </div>
 
         <!-- Search bar -->
@@ -14,15 +14,15 @@
               @keyup.enter="emitSearch(userSearch)" />
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70 cursor-pointer"
               @click="emitSearch(userSearch)">
-              <path fill-rule="evenodd"
-                  d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                  clip-rule="evenodd" />
+                <path fill-rule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clip-rule="evenodd" />
               </svg>
           </label>
         </div>
 
         <!-- Theme toggle -->
-        <div class="hidden sm:flex absolute lg:right-[22.5vw] 2xl:right-[11.5vw]">
+        <div class="hidden sm:flex">
           <label class="swap swap-rotate">
             <!-- this hidden checkbox controls the state -->
             <input type="checkbox" v-model="isDarkMode" @click="toggleTheme(isDarkMode)" />
@@ -48,14 +48,14 @@
         </div>
         
         <!-- Right section -->
-        <div class="flex items-center ml-auto">
+        <div class="flex items-center ml-[58%] lg:ml-auto lg:mr-3">
             <!-- My Jobs button -->
             <NuxtLink :to="'/employee/createJob'"
-            class="hidden sm:flex btn btn-primary rounded-md mr-3"
+            class="hidden sm:flex btn btn-primary sm:w-[30%] sm:h-[30%] lg:w-[40%] lg:h-auto rounded-md mr-3"
             >Create Job</NuxtLink>
             <button
             v-if="isLoggedIn"
-            class="hidden sm:flex btn btn-primary rounded-md"
+            class="hidden sm:flex btn btn-primary sm:w-[30%] sm:h-[30%] lg:w-[40%] lg:h-auto rounded-md"
             >*My Jobs</button>
 
             <!-- User dropdown -->

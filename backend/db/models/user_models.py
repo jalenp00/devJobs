@@ -41,6 +41,14 @@ class UserResponseModel(BaseModel):
 class UserRequestModel(BaseModel):
     id: str
 
+class ApplyModel(BaseModel):
+    job_id: str = Field(alias="jobId")
+    user_id: str = Field(alias="userId")
+
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+
 def transform_to_response_model(user: dict) -> UserResponseModel:
     return UserResponseModel(
         id=str(user.get('_id')),

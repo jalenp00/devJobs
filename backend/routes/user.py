@@ -18,7 +18,7 @@ router = APIRouter()
 redis_client = Redis.from_url('redis://redis:6379')
 
 user_collection = db[settings.user_collection]
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+job_collection = db[settings.job_collection]
 
 # Create a new user
 @router.post('/')
@@ -77,4 +77,39 @@ async def login(user: UserLoginModel):
     await redis_client.set(session_id, user_to_redis, ex=3600)  # 1-hour expiry
 
     return {"access_token": session_id, "token_type": "bearer"}
+
+@router.post('/apply')
+async def apply_to_job(req: ApplyModel):
+    logger.info(f"Applying to job with id: {req.job_id}")
+    job_id = UUID(req.job_id)
+    user_id = UUID(req.user_id)
+
+    job = await job_collection.find_one({'_id': job_id})
+    user = await user_collection.find_one({'_id': user_id})
+
+    if not job:
+        return {'error': 'Job does not exist'}
+    
+    if not user:
+        return {'error': 'User does not exist'}
+    
+    if 'numApplicants' not in job:
+        job['numApplicants'] = 0
+    
+    if 'applicants' not in job:
+        job['applicants'] = []
+        
+    job['numApplicants'] += 1
+    job['applicants'].append(user_id)
+
+    if 'appliedJobs' not in user:
+        user['appliedJobs'] = []
+
+    user['appliedJobs'].append(job_id)
+
+    await job_collection.update_one({'_id': job_id}, {'$set': job})
+
+    await user_collection.update_one({'_id': user_id}, {'$set': user})
+
+    return {'success': 'Applied to job'}
 

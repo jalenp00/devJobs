@@ -18,18 +18,21 @@ const authenticate = async (req, res, next) => {
     const sessionId = req.cookies.token;
 
     if (!sessionId) {
-      return res.status(401).json({ error: 'Unauthorized: No token id found.' });
+      return res.status(401).json({ error: 'Unauthorized: No cookie token found.' });
     }
 
-    const redisSessionId = await client.get(sessionId);
+    const redisSession = await client.get(sessionId);
+    const redisSessionId = JSON.parse(redisSession).id;
 
-    if (!redisSessionId) {
-      return res.status(401).json({ error: 'Unauthorized: No token id found.' });
+    if (!redisSession || !redisSessionId) {
+      return res.status(401).json({ error: 'Unauthorized: No redis token found.' });
     }
 
     console.log('Session ID:', sessionId);
     console.log('Redis Session ID:', redisSessionId);
 
+    // Attach userId to the req object
+    req.userId = redisSessionId;
     next();
   } catch (error) {
     console.error('Authentication failed:', error);
@@ -97,6 +100,20 @@ router.post('/logout', async (req, res) => {
   } catch (error) {
     console.error('Logout failed:', error);
     return res.status(500).json({ error: 'Logout failed' });
+  }
+});
+
+// Apply Job
+router.post('/apply', authenticate, async (req, res) => {
+  try {
+    console.log('jobId: ', req.body.jobId);
+    const response = await axios.post(API + '/apply', {
+      userId: req.userId,
+      jobId: req.body.jobId
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error });
   }
 });
 
