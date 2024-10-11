@@ -4,7 +4,7 @@ DevJobs is a modern web application designed to help users browse and search for
 
 # Key Features:
 
-- Real-time Search and Filtering: Instantly find the most relevant jobs based on location, role, and pay with dynamic updates as you type.
+- Real-time Search and Filtering: Instantly find the most relevant jobs based on location, role, and pay with dynamic updates.
 - Responsive Design: Seamless user experience across devices, whether on desktop or mobile.
 - User Authentication: Secure sign-in for job seekers to apply and view thier job listings.
 
